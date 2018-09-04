@@ -1,0 +1,6 @@
+@using ManHour.Web.Api.Areas.HelpPage.ModelDescriptions
+@model ManHour.Web.Api.Areas.HelpPage.ModelDescriptions.CollectionModelDescription
+@if (Model.ElementDescription is ComplexTypeModelDescription)
+{
+    @Html.DisplayFor(m => m.ElementDescription)
+}
