@@ -23,13 +23,26 @@ namespace ManHour.Web.Api.Controllers
         }
 
         // POST: api/ManHour
-        public void Post([FromBody] ManHourModel model)
+        public IHttpActionResult Post([FromBody] ManHourModel model)
         {
-            Actividad actividad = new Actividad();
-            actividad.CodigoEmpleado = model.Empleado;
-            actividad.Dispositivo = model.Dispositivo;
-            actividad.FechaMarcacion = model.FechaMarcacion;
-            ServicioPTUX.Agregar(actividad);
+            try
+            {
+                Actividad actividad = new Actividad();
+                actividad.CodigoEmpleado = model.Empleado;
+                actividad.Dispositivo = model.Dispositivo;
+                actividad.FechaMarcacion = model.FechaMarcacion;
+                ServicioPTUX.Agregar(actividad);
+                return Ok(new
+                {
+                    Code = 400,
+                    Description = "Cretaed"
+                });
+            }
+            catch (System.Exception)
+            {
+                return BadRequest("Something is not correct");
+
+            }
         }
 
         // PUT: api/ManHour/5

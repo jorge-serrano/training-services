@@ -50,7 +50,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositorioPTUX.cs" />
+    <Compile Include="RepositorioTNM.cs" />
     <Compile Include="ServicioPTUX.cs" />
+    <Compile Include="ServicioTNM.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ManHour.Model\ManHour.Model.csproj">
