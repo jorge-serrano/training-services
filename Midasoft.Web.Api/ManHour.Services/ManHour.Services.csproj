@@ -48,11 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositorioPTUX.cs" />
     <Compile Include="RepositorioTNM.cs" />
     <Compile Include="ServicioPTUX.cs" />
     <Compile Include="ServicioTNM.cs" />
+    <Compile Include="ValidationException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ManHour.Model\ManHour.Model.csproj">
