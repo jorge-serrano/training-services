@@ -4,10 +4,10 @@ namespace ManHour.Model
 {
     public class Actividad
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string CodigoEmpleado { get; set; }
 
-        public DateTime FechaProgramada { get; set; }
+        public DateTime? FechaProgramada { get; set; }
 
         public string CentroCosto { get; set; }
 
@@ -23,7 +23,7 @@ namespace ManHour.Model
 
         public string Directorio { get; set; }
 
-        public DateTime FechaMarcacion { get; set; }
+        public DateTime? FechaMarcacion { get; set; }
 
         public string Novedad { get; set; }
 

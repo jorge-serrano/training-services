@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using System.Web.Http;
 using ManHour.Model;
 using ManHour.Services;
@@ -11,15 +11,45 @@ namespace ManHour.Web.Api.Controllers
     public class ManHourController : ApiController
     {
         // GET: api/ManHour
-        public IEnumerable<string> Get()
+        public IHttpActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                return Ok(ServicioPTUX.Obtener(null));
+            }
+            catch (ValidationException vex)
+            {
+                return BadRequest(vex.Message);
+            }
+            catch (System.Exception )
+            {
+
+                return BadRequest("Something is not correct");
+
+            }
         }
 
         // GET: api/ManHour/5
-        public string Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+            try
+            {
+                var actividad = ServicioPTUX.Obtener(id).FirstOrDefault();
+                if (actividad != null)
+                    return Ok(actividad);
+                return NotFound();
+            }
+            catch (ValidationException vex)
+            {
+                return BadRequest(vex.Message);
+            }
+            catch (System.Exception )
+            {
+
+                return BadRequest("Something is not correct");
+
+            }
+
         }
 
         // POST: api/ManHour
@@ -38,21 +68,67 @@ namespace ManHour.Web.Api.Controllers
                     Description = "Cretaed"
                 });
             }
-            catch (System.Exception)
+            catch (ValidationException vex)
             {
+                return BadRequest(vex.Message);
+            }
+            catch (System.Exception )
+            {
+
                 return BadRequest("Something is not correct");
 
             }
         }
 
         // PUT: api/ManHour/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]ManHourModel model)
         {
+            try
+            {
+                Actividad actividad = ServicioPTUX.Obtener(id).FirstOrDefault();
+                if (actividad == null)
+                    return NotFound();
+                actividad.Id = id;
+                actividad.CodigoEmpleado = model.Empleado;
+                actividad.Dispositivo = model.Dispositivo;
+                actividad.FechaMarcacion = model.FechaMarcacion;
+                ServicioPTUX.Actualizar(actividad);
+                return Ok(actividad);
+            }
+            catch (ValidationException vex)
+            {
+                return BadRequest(vex.Message);
+            }
+            catch (System.Exception )
+            {
+
+                return BadRequest("Something is not correct");
+
+            }
+
         }
 
         // DELETE: api/ManHour/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            try
+            {
+                Actividad actividad = ServicioPTUX.Obtener(id).FirstOrDefault();
+                if (actividad == null)
+                    return NotFound();
+                ServicioPTUX.Borrar(id);
+                return Ok();
+            }
+            catch (ValidationException vex)
+            {
+                return BadRequest(vex.Message);
+            }
+            catch (System.Exception )
+            {
+
+                return BadRequest("Something is not correct");
+
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using ManHour.Web.Api.Models;
+using System.Net;
 using System.Web.Http;
 
 namespace ManHour.Web.Api.Controllers
@@ -6,11 +7,11 @@ namespace ManHour.Web.Api.Controllers
     public class TokenController : ApiController
     {
         [AllowAnonymous]
-        public string Post(string username, string password, string companyId)
+        public string Post([FromBody] AuthenticationModel credentials)
         {
-            if (CheckUser(username, password, companyId))
+            if (CheckUser(credentials.Username, credentials.Password, credentials.CompanyId))
             {
-                return JwtManager.GenerateToken(username, companyId);
+                return JwtManager.GenerateToken(credentials.Username, credentials.CompanyId);
             }
 
             throw new HttpResponseException(HttpStatusCode.Unauthorized);
