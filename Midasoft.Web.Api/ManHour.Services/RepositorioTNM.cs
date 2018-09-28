@@ -74,5 +74,55 @@ namespace ManHour.Services
                 DbType = DbType.Double
             });
         }
+
+        public static IEnumerable<TipoNomina> Find(string tipo)
+        {
+            List<TipoNomina> recordsTipoNomina = new List<TipoNomina>();
+            DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory(), false);
+            Database db = DatabaseFactory.CreateDatabase();
+            using (var command = db.GetStoredProcCommand("crud_TNMSelect"))
+            using (command.Connection = db.CreateConnection())
+            {
+
+                try
+                {
+                    if(string.IsNullOrEmpty(tipo))
+                        command.Parameters.Add(new SqlParameter()
+                        {
+                            ParameterName = "@TIPO_NOM",
+                            Value =  DBNull.Value 
+                        });
+                    else
+                        command.Parameters.Add(new SqlParameter()
+                        {
+                            ParameterName = "@TIPO_NOM",
+                            Value = tipo
+                        });
+                    command.Connection.Open();
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        //TIPO_NOM, DESCRIPCION, HORS_POR_MES, HRS_DIA, DIAS_P, DSCTO_MIN
+                        recordsTipoNomina.Add(
+                            new TipoNomina()
+                            {
+                                Tipo = reader.GetString(0),
+                                Descripcion = reader.GetString(1),
+                                DiasPeriodo = reader.GetDouble(4),
+                                HorasMes = reader.GetDouble(2),
+                                HorasDia = reader.GetDouble(3),
+                                DescuentoMinimo = reader.GetDouble(5)
+                            }
+                            );
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+            }
+            return recordsTipoNomina;
+        }
     }
 }

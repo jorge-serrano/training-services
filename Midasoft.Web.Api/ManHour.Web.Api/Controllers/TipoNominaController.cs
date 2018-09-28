@@ -15,15 +15,37 @@ namespace ManHour.Web.Api.Controllers
     public class TipoNominaController : ApiController
     {
         // GET: api/TipoNomina
-        public IEnumerable<TipoNomina> Get()
+        public IHttpActionResult  Get()
         {
-            return null;
+            try
+            {
+                IEnumerable<TipoNomina> list = ServicioTNM.Find(null);
+                return Ok(
+                    list
+                    );
+            }
+            catch (Exception)
+            {
+
+                return BadRequest();
+            }
         }
 
         // GET: api/TipoNomina/5
-        public TipoNomina Get(string id)
+        public IHttpActionResult Get(string id)
         {
-            return null;
+            try
+            {
+                IEnumerable<TipoNomina> list = ServicioTNM.Find(id);
+                return Ok(
+                    list.FirstOrDefault()??new TipoNomina()
+                    );
+            }
+            catch (Exception)
+            {
+
+                return BadRequest();
+            }
         }
 
         // POST: api/TipoNomina

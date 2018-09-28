@@ -20,5 +20,10 @@ namespace ManHour.Services
             RepositorioTNM.Agregar(tnm);
             return true;
         }
+
+        public static IEnumerable<TipoNomina> Find(string  tipo)
+        {
+            return RepositorioTNM.Find(tipo);
+        }
     }
 }
